@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Checkout</h2>
+
+    {% if items %}
+        <div class="status-card">
+            {% for item in items %}
+                <p>
+                    <strong>{{ item.order.garment_type }}</strong> — 
+                    Qty: {{ item.quantity }} — 
+                    ${{ item.total_price }}
+                </p>
+            {% endfor %}
+        </div>
+
+        <h3><strong>Total Price: ${{ total_price }}</strong></h3>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <label><strong>Select Payment Method:</strong></label>
+            <select name="payment_method" class="form-control" required>
+                {% for value, label in payment_methods %}
+                    <option value="{{ value }}">{{ label }}</option>
+                {% endfor %}
+            </select>
+
+            <br>
+
+            <button class="btn">Confirm Checkout</button>
+        </form>
+
+    {% else %}
+        <p>Your cart is empty.</p>
+    {% endif %}
+</div>
+{% endblock %}

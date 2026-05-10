@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Create an Order</h2>
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+
+        <div class="form-group">
+            {{ form.customer_name.label_tag }}
+            {{ form.customer_name }}
+            <div class="error">{{ form.customer_name.errors }}</div>
+        </div>
+
+        <div class="form-group">
+            {{ form.email.label_tag }}
+            {{ form.email }}
+            <div class="error">{{ form.email.errors }}</div>
+        </div>
+
+        <div class="form-group">
+            {{ form.garment_type.label_tag }}
+            {{ form.garment_type }}
+            <div class="error">{{ form.garment_type.errors }}</div>
+        </div>
+
+        <div class="form-group">
+            {{ form.alteration_type.label_tag }}
+            {{ form.alteration_type }}
+            <div class="error">{{ form.alteration_type.errors }}</div>
+        </div>
+
+        <div class="form-group">
+            {{ form.description.label_tag }}
+            {{ form.description }}
+            <div class="error">{{ form.description.errors }}</div>
+        </div>
+
+        <div class="form-group">
+            {{ form.deadline.label_tag }}
+            {{ form.deadline }}
+            <div class="error">{{ form.deadline.errors }}</div>
+        </div>
+
+        <div class="form-group">
+            {{ form.image.label_tag }}
+            {{ form.image }}
+            <div class="error">{{ form.image.errors }}</div>
+        </div>
+
+        <button type="submit" class="btn">Submit Order</button>
+    </form>
+</div>
+{% endblock %}

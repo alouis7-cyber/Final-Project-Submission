@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+
+
+<h1 class="section-title">Shop All Products</h1>
+
+<div class="form-container">
+    
+
+    <!-- SEARCH BAR -->
+    <form method="GET" style="margin-bottom: 20px;">
+        <input 
+            type="text" 
+            name="q" 
+            placeholder="Search products..." 
+            value="{{ query }}" 
+            style="padding: 8px; width: 70%; border-radius: 5px; border: 1px solid #ccc;"
+        >
+        <button class="btn">Search</button>
+    </form>
+
+    {% if page_obj %}
+        <div style="display: flex; flex-wrap: wrap; gap: 15px;">
+            {% for product in page_obj %}
+                <div style="width: 200px; text-align: center;">
+                    <img src="{{ product.image.url }}" style="width: 100%; border-radius: 8px;">
+                    <p><strong>{{ product.name }}</strong></p>
+                    <p>{{ product.category }}</p>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- PAGINATION -->
+        <div style="margin-top: 20px; text-align: center;">
+            {% if page_obj.has_previous %}
+                <a class="btn" href="?q={{ query }}&page={{ page_obj.previous_page_number }}">Previous</a>
+            {% endif %}
+
+            <span style="margin: 0 10px;">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+            </span>
+
+            {% if page_obj.has_next %}
+                <a class="btn" href="?q={{ query }}&page={{ page_obj.next_page_number }}">Next</a>
+            {% endif %}
+        </div>
+
+    {% else %}
+        <p>No products found.</p>
+    {% endif %}
+</div>
+
+{% endblock %}

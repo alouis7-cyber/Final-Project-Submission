@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="status-container">
+    <h2>Order Status</h2>
+
+    <div class="status-card">
+       <p><strong>Status:</strong>
+    <span class="status-badge status-{{ order.status|lower|slugify }}">
+        {{ order.status }}
+    </span>
+</p>
+
+<div class="progress-wrapper">
+    <div class="progress-bar status-{{ order.status|lower|slugify }}"></div>
+</div>
+
+        </p>
+
+        <p><strong>Customer:</strong> {{ order.customer_name }}</p>
+        <p><strong>Garment:</strong> {{ order.garment_type }}</p>
+
+        {% if order.description %}
+            <p><strong>Description:</strong> {{ order.description }}</p>
+        {% endif %}
+
+        {% if order.deadline %}
+            <p><strong>Deadline:</strong> {{ order.deadline }}</p>
+        {% endif %}
+
+        {% if order.image %}
+            <div class="image-box">
+                <img src="{{ order.image.url }}" alt="Order Image">
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="back-btn-container">
+        <a href="/orders/" class="back-btn">← Back to My Orders</a>
+    </div>
+</div>
+{% endblock %}
