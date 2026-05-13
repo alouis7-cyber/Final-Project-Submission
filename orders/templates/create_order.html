@@ -1,56 +1,121 @@
 {% extends "base.html" %}
 
 {% block content %}
+
+<style>
+    .form-container {
+        max-width: 600px !important;
+        margin: 40px auto !important;
+        background: #ffffff !important;
+        padding: 30px !important;
+        border-radius: 12px !important;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1) !important;
+        font-family: Arial, sans-serif !important;
+    }
+
+    .form-container h2 {
+        text-align: center !important;
+        margin-bottom: 20px !important;
+        font-size: 26px !important;
+        font-weight: bold !important;
+        color: #333 !important;
+    }
+
+    .form-group {
+        margin-bottom: 18px !important;
+    }
+
+    .form-group label {
+        display: block !important;
+        font-weight: bold !important;
+        margin-bottom: 6px !important;
+        color: #444 !important;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        width: 100% !important;
+        padding: 12px !important;
+        border: 1px solid #ccc !important;
+        border-radius: 8px !important;
+        font-size: 15px !important;
+        transition: 0.2s !important;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+        border-color: #4a90e2 !important;
+        box-shadow: 0 0 5px rgba(74,144,226,0.4) !important;
+        outline: none !important;
+    }
+
+    .submit-btn {
+        width: 100% !important;
+        padding: 14px !important;
+        background: #4a90e2 !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 8px !important;
+        font-size: 17px !important;
+        font-weight: bold !important;
+        cursor: pointer !important;
+        transition: 0.2s !important;
+        margin-top: 10px !important;
+    }
+
+    .submit-btn:hover {
+        background: #357ABD !important;
+    }
+</style>
+
 <div class="form-container">
     <h2>Create an Order</h2>
 
-    <form method="POST" enctype="multipart/form-data">
+    <form method="POST" action="{% url 'create_order' %}" enctype="multipart/form-data">
+
         {% csrf_token %}
         {{ form.non_field_errors }}
 
         <div class="form-group">
             {{ form.customer_name.label_tag }}
             {{ form.customer_name }}
-            <div class="error">{{ form.customer_name.errors }}</div>
         </div>
 
         <div class="form-group">
             {{ form.email.label_tag }}
             {{ form.email }}
-            <div class="error">{{ form.email.errors }}</div>
         </div>
 
         <div class="form-group">
             {{ form.garment_type.label_tag }}
             {{ form.garment_type }}
-            <div class="error">{{ form.garment_type.errors }}</div>
         </div>
 
         <div class="form-group">
             {{ form.alteration_type.label_tag }}
             {{ form.alteration_type }}
-            <div class="error">{{ form.alteration_type.errors }}</div>
         </div>
 
         <div class="form-group">
-            {{ form.description.label_tag }}
-            {{ form.description }}
-            <div class="error">{{ form.description.errors }}</div>
+            {{ form.notes.label_tag }}
+            {{ form.notes }}
         </div>
 
         <div class="form-group">
             {{ form.deadline.label_tag }}
             {{ form.deadline }}
-            <div class="error">{{ form.deadline.errors }}</div>
         </div>
 
         <div class="form-group">
             {{ form.image.label_tag }}
             {{ form.image }}
-            <div class="error">{{ form.image.errors }}</div>
         </div>
 
-        <button type="submit" class="btn">Submit Order</button>
+        <button type="submit" class="submit-btn">Submit Order</button>
     </form>
 </div>
+
 {% endblock %}
+d

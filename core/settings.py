@@ -27,7 +27,15 @@ SECRET_KEY = 'django-insecure-xs-rmld7^2#+32k7pz82y)ogb=u&w+vyjx8%79-)%j8gi&psyv
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [ 
+    'alouis.pythonanywhere.com',
+    'localhost',
+    '127.0.0.1'
+]
+LOGIN_REDIRECT_URL = '/cart/'
+LOGOUT_REDIRECT_URL = '/'
+
+
 
 
 # Application definition

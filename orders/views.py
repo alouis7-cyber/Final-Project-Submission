@@ -5,7 +5,7 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.db.models import Q
 from django.core.paginator import Paginator
-
+from django.contrib.auth import logout
 from .forms import HomeImageUploadForm, CustomerRegistrationForm, OrderForm
 from .models import Order, CartItem, Product
 
@@ -37,8 +37,12 @@ def front_page(request):
         "page_obj": page_obj,
         "query": query,
     })
-
-
+#-------------
+# logout view
+#---------------------------
+def logout_view(request):
+    logout(request)
+    return redirect("front_page")
 # ---------------------------
 # REGISTER
 # ---------------------------

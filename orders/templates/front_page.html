@@ -3,32 +3,46 @@
 
 {% block content %}
 
+<!-- HERO SECTION -->
+<div style="
+    background: linear-gradient(135deg, #4a90e2, #6ec6ff);
+    padding: 60px 20px;
+    text-align: center;
+    color: white;
+    border-radius: 12px;
+    margin-bottom: 40px;
+">
+    <h1 style="font-size: 42px; font-weight: 700; margin-bottom: 10px;">
+        Welcome to Your Alteration Shop
+    </h1>
+    <p style="font-size: 18px; max-width: 700px; margin: 0 auto;">
+        Browse all available products, explore categories, and find the perfect items for your custom alterations.
+        Search, filter, and shop with ease.
+    </p>
+</div>
 
-
-<h1 class="section-title">Shop All Products</h1>
-
+<!-- SEARCH + PRODUCTS -->
 <div class="form-container">
-    
 
     <!-- SEARCH BAR -->
-    <form method="GET" style="margin-bottom: 20px;">
+    <form method="GET" style="margin-bottom: 20px; text-align:center;">
         <input 
             type="text" 
             name="q" 
             placeholder="Search products..." 
             value="{{ query }}" 
-            style="padding: 8px; width: 70%; border-radius: 5px; border: 1px solid #ccc;"
+            style="padding: 10px; width: 60%; border-radius: 8px; border: 1px solid #ccc;"
         >
         <button class="btn">Search</button>
     </form>
 
     {% if page_obj %}
-        <div style="display: flex; flex-wrap: wrap; gap: 15px;">
+        <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content:center;">
             {% for product in page_obj %}
-                <div style="width: 200px; text-align: center;">
+                <div style="width: 220px; text-align: center; background:white; padding:15px; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
                     <img src="{{ product.image.url }}" style="width: 100%; border-radius: 8px;">
                     <p><strong>{{ product.name }}</strong></p>
-                    <p>{{ product.category }}</p>
+                    <p style="color:#777;">{{ product.category }}</p>
                 </div>
             {% endfor %}
         </div>
