@@ -4,7 +4,7 @@
 <head>
  <meta charset="UTF-8">
  <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>{% block title %}Alteration System{% endblock %}</title>
+ <title>{% block title %}Laptop Boutique{% endblock %}</title>
 
  <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
@@ -17,18 +17,29 @@
  </div>
 
  <div class="nav-right">
+
+   <!-- PRODUCT LINKS (visible to everyone) -->
+   <a href="/products/men/">Men</a>
+   <a href="/products/women/">Women</a>
+   <a href="/products/kids/">Kids</a>
+
+   <!-- CART LINK -->
+   <a href="/cart/">Cart</a>
+
    {% if user.is_authenticated %}
      <span>Welcome, {{ user.username }}</span>
-     <a href="/create-order/">Create Order</a>
-     <a href="/orders/">My Orders</a>
+
+     <!-- USER ACTIONS -->
      <a href="/notifications/">Notifications</a>
 
-     <form method="post" action="{% url 'logout' %}" class="logout-form">
+     <!-- LOGOUT BUTTON -->
+     <form method="post" action="{% url 'logout' %}" class="logout-form" style="display:inline;">
        {% csrf_token %}
        <button type="submit" class="logout-link">Logout</button>
      </form>
 
    {% else %}
+     <!-- AUTH LINKS -->
      <a href="/accounts/login/">Login</a>
      <a href="/register/">Register</a>
    {% endif %}
