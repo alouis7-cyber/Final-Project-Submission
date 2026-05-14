@@ -32,7 +32,7 @@ ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1'
 ]
-LOGIN_REDIRECT_URL = '/products'
+LOGIN_REDIRECT_URL = '/products/men/women/kids/'
 LOGOUT_REDIRECT_URL = '/'
 
 
