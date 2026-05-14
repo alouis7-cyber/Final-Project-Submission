@@ -8,14 +8,6 @@ urlpatterns = [
     path("register/", views.register, name="register"),
     path("logout/", views.logout_view, name="logout"),
 
-    # ORDERS
-    path("create-order/", views.create_order, name="create_order"),
-    path("order-status/<int:id>/", views.order_status, name="order_status"),
-    path("orders-list/", views.orders_list, name="orders_list"),
-
-    # ADMIN DASHBOARD
-    path("admin-dashboard/", views.admin_dashboard, name="admin_dashboard"),
-
     # PRODUCTS
     path("products/men/", views.men_products, name="men_products"),
     path("products/women/", views.women_products, name="women_products"),
