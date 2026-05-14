@@ -12,6 +12,7 @@ urlpatterns = [
     path("create-order/", views.create_order, name="create_order"),
     path("orders/", views.orders_list, name="orders"),   # ← COMMA ADDED
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
+    path("notifications/", views.notifications, name="notifications"),
 
 ]
 

@@ -97,6 +97,10 @@ def admin_dashboard(request):
     orders = Order.objects.all().order_by("-created_at")
     return render(request, "admin_dashboard.html", {"orders": orders})
 
+# NOTIFICATIONS PAGE
+@login_required
+def notifications(request):
+    return render(request, "notifications.html")
 
 # ---------------------------
 # PRODUCT LISTING PAGES
