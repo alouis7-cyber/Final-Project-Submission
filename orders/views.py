@@ -157,8 +157,12 @@ def add_to_cart(request, product_id):
 @login_required
 def cart(request):
     items = CartItem.objects.filter(user=request.user)
+    print("User:", request.user)
+    print("Cart items count:", items.count())
+    for item in items:
+        print(" -", item.product.name, item.quantity)
+    
     total_price = sum(item.total_price for item in items)
-
     return render(request, "cart.html", {
         "items": items,
         "total_price": total_price
