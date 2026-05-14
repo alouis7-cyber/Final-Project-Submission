@@ -1,60 +1,50 @@
+{% load static %}
+<!DOCTYPE html>
 <html lang="en">
 <head>
  <meta charset="UTF-8">
  <meta name="viewport" content="width=device-width, initial-scale=1.0">
  <title>{% block title %}Alteration System{% endblock %}</title>
 
-<!-- Static CSS -->
- {% load static %}
  <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 
 <body>
 
-<!-- NAVIGATION BAR -->
- <nav class="navbar">
+<nav class="navbar">
  <div class="nav-left">
- <a href="/">Laptop Boutique</a>
+   <a href="/">Laptop Boutique</a>
  </div>
 
-<div class="nav-right">
- {% if user.is_authenticated %}
- <span>Welcome, {{ user.username }}</span>
- <a href="/create-order/">Create Order</a>
- <a href="/orders/">My Orders</a>
- <a href="/notifications/">Notifications</a>
- <form method="post" action="{% url 'logout' %}" style="display: inline;">
-   {% csrf_token %}
-   <button type="submit" style="
-     background: none;
-     border: none;
-     color: inherit;
-     font: inherit;
-     cursor: pointer;
-     padding: 0;
-     text-decoration: underline;
-   ">Logout</button>
- </form>
- {% else %}
- <a href="/accounts/login/">Login</a>
- <a href="/register/">Register</a>
- {% endif %}
-</div>
- 
+ <div class="nav-right">
+   {% if user.is_authenticated %}
+     <span>Welcome, {{ user.username }}</span>
+     <a href="/create-order/">Create Order</a>
+     <a href="/orders/">My Orders</a>
+     <a href="/notifications/">Notifications</a>
+
+     <form method="post" action="{% url 'logout' %}" class="logout-form">
+       {% csrf_token %}
+       <button type="submit" class="logout-link">Logout</button>
+     </form>
+
+   {% else %}
+     <a href="/accounts/login/">Login</a>
+     <a href="/register/">Register</a>
+   {% endif %}
+ </div>
 </nav>
 
 {% if messages %}
 <div class="message-container">
  {% for message in messages %}
- <div class="message {{ message.tags }}">{{ message }}</div>
+   <div class="message {{ message.tags }}">{{ message }}</div>
  {% endfor %}
 </div>
 {% endif %}
 
-<!-- MAIN CONTENT -->
-<main style="padding: 40px 20px;" >
- {% block content %}
- {% endblock %}
+<main style="padding: 40px 20px;">
+ {% block content %}{% endblock %}
 </main>
 
 </body>

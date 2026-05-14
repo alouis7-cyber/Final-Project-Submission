@@ -35,3 +35,21 @@
     font-weight: bold;
     cursor: pointer;
 }
+.logout-form {
+    display: inline;
+}
+
+.logout-link {
+    background: none;
+    border: none;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+}
+
+.logout-link:hover {
+    text-decoration: underline;
+}
