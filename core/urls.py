@@ -11,7 +11,7 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path("create-order/", views.create_order, name="create_order"),
     path("orders/", views.orders_list, name="orders"),   # ← COMMA ADDED
-    path("logout/", auth_views.LogoutView.as_view(), name="logout"),
+    path("logout/", auth_views.LogoutView.as_view(next_page='front_page'), name="logout"),
     path("notifications/", views.notifications, name="notifications"),
 
 ]
