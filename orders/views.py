@@ -69,12 +69,11 @@ def create_order(request):
         if form.is_valid():
             order = form.save()
             messages.success(request, "Order submitted successfully!")
-            return redirect("order_status", id=order.id)
+            return redirect("front_page")   # ← FIXED
     else:
         form = OrderForm()
 
     return render(request, "create_order.html", {"form": form})
-
 
 # ---------------------------
 # ORDER STATUS
