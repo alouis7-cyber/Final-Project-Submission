@@ -21,8 +21,8 @@
         <div class="nav-right">
             {% if user.is_authenticated %}
                 <span>Welcome, {{ user.username }}</span>
-                <a href="/create/">Create Order</a>
-                <a href="/orders/">My Orders</a>
+                <a href="/create-order/">Create Order</a>
+                <a href="/create-orders/">My Orders</a>
                 <a href="/notifications/">Notifications</a>
                 <a href="{% url 'logout' %}">Logout</a>
 
