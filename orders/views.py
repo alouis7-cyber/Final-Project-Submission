@@ -7,8 +7,8 @@ from django.db.models import Q
 from django.core.paginator import Paginator
 from django.contrib.auth import logout
 
-from .forms import HomeImageUploadForm, CustomerRegistrationForm, OrderForm
-from .models import Order, CartItem, Product
+from .forms import CustomerRegistrationForm
+from .models import CartItem, Product
 
 
 # ---------------------------
@@ -58,50 +58,6 @@ def register(request):
         form = CustomerRegistrationForm()
 
     return render(request, "register.html", {"form": form})
-
-
-# ---------------------------
-# CREATE ORDER
-# ---------------------------
-@login_required
-def create_order(request):
-    if request.method == "POST":
-        form = OrderForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Order submitted successfully!")
-            return redirect("front_page")
-    else:
-        form = OrderForm()
-
-    return render(request, "create_order.html", {"form": form})
-
-
-# ---------------------------
-# ORDER STATUS
-# ---------------------------
-@login_required
-def order_status(request, id):
-    order = get_object_or_404(Order, id=id)
-    return render(request, "order_status.html", {"order": order})
-
-
-# ---------------------------
-# ORDERS LIST (ADMIN)
-# ---------------------------
-@login_required
-def orders_list(request):
-    orders = Order.objects.all().order_by("-id")
-    return render(request, "orders_list.html", {"orders": orders})
-
-
-# ---------------------------
-# ADMIN DASHBOARD
-# ---------------------------
-@login_required
-def admin_dashboard(request):
-    orders = Order.objects.all().order_by("-created_at")
-    return render(request, "admin_dashboard.html", {"orders": orders})
 
 
 # ---------------------------
@@ -157,11 +113,6 @@ def add_to_cart(request, product_id):
 @login_required
 def cart(request):
     items = CartItem.objects.filter(user=request.user)
-    print("User:", request.user)
-    print("Cart items count:", items.count())
-    for item in items:
-        print(" -", item.product.name, item.quantity)
-    
     total_price = sum(item.total_price for item in items)
     return render(request, "cart.html", {
         "items": items,
