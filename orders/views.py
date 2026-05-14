@@ -6,6 +6,7 @@ from django.template.loader import render_to_string
 from django.db.models import Q
 from django.core.paginator import Paginator
 from django.contrib.auth import logout
+
 from .forms import HomeImageUploadForm, CustomerRegistrationForm, OrderForm
 from .models import Order, CartItem, Product
 
@@ -14,13 +15,10 @@ from .models import Order, CartItem, Product
 # FRONT PAGE (PRODUCT GALLERY + SEARCH)
 # ---------------------------
 def front_page(request):
-    # SEARCH FILTER
     query = request.GET.get("q", "")
 
-    # Base queryset: all products
     products = Product.objects.all()
 
-    # Apply search filter
     if query:
         products = products.filter(
             Q(name__icontains=query) |
@@ -28,7 +26,6 @@ def front_page(request):
             Q(description__icontains=query)
         )
 
-    # PAGINATION — 9 per page
     paginator = Paginator(products, 9)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
@@ -37,12 +34,16 @@ def front_page(request):
         "page_obj": page_obj,
         "query": query,
     })
-#-------------
-# logout view
-#---------------------------
+
+
+# ---------------------------
+# LOGOUT
+# ---------------------------
 def logout_view(request):
     logout(request)
     return redirect("front_page")
+
+
 # ---------------------------
 # REGISTER
 # ---------------------------
@@ -67,13 +68,14 @@ def create_order(request):
     if request.method == "POST":
         form = OrderForm(request.POST, request.FILES)
         if form.is_valid():
-            order = form.save()
+            form.save()
             messages.success(request, "Order submitted successfully!")
-            return redirect("front_page")   # ← FIXED
+            return redirect("front_page")
     else:
         form = OrderForm()
 
     return render(request, "create_order.html", {"form": form})
+
 
 # ---------------------------
 # ORDER STATUS
@@ -83,27 +85,35 @@ def order_status(request, id):
     order = get_object_or_404(Order, id=id)
     return render(request, "order_status.html", {"order": order})
 
-#
+
+# ---------------------------
 # ORDERS LIST (ADMIN)
 # ---------------------------
-# login_required
+@login_required
 def orders_list(request):
     orders = Order.objects.all().order_by("-id")
     return render(request, "orders_list.html", {"orders": orders})
 
+
+# ---------------------------
+# ADMIN DASHBOARD
 # ---------------------------
 @login_required
 def admin_dashboard(request):
     orders = Order.objects.all().order_by("-created_at")
     return render(request, "admin_dashboard.html", {"orders": orders})
 
-# NOTIFICATIONS PAGE
+
+# ---------------------------
+# NOTIFICATIONS
+# ---------------------------
 @login_required
 def notifications(request):
     return render(request, "notifications.html")
 
+
 # ---------------------------
-# PRODUCT LISTING PAGES
+# PRODUCT LISTING
 # ---------------------------
 def men_products(request):
     products = Product.objects.filter(category="men")
@@ -138,9 +148,9 @@ def add_to_cart(request, product_id):
             cart_item.quantity += 1
             cart_item.save()
 
-        return redirect("cart")
+    return redirect("cart")
 
-    return redirect("product_detail", product_id=product_id)
+
 # ---------------------------
 # CART PAGE
 # ---------------------------
@@ -187,6 +197,7 @@ def update_cart(request, item_id):
 # ---------------------------
 def send_receipt_email(user, items, total_price, payment_method):
     subject = "Your Order Receipt"
+
     message = render_to_string("emails/receipt_email.html", {
         "user": user,
         "items": items,
@@ -233,6 +244,6 @@ def checkout(request):
             ("cash", "Cash"),
             ("card", "Credit/Debit Card"),
             ("zelle", "Zelle"),
-            ("paypal", "PayPal"),
+            ("PayPal", "PayPal"),
         ],
     })
