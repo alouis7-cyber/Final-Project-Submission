@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 style="margin-bottom: 20px;">My Orders</h2>
+
+{% if orders %}
+    {% for order in orders %}
+        <div class="order-card">
+            <p><strong>Order ID:</strong> {{ order.id }}</p>
+            <p><strong>Status:</strong> {{ order.status }}</p>
+            <p><strong>Garment:</strong> {{ order.garment_type }}</p>
+
+            <a href="{% url 'order_status' order.id %}" class="btn">
+                View Status
+            </a>
+        </div>
+    {% endfor %}
+{% else %}
+    <p>You have no orders yet.</p>
+{% endif %}
+{% endblock %}

@@ -9,8 +9,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('orders.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
-    path("create-order/", views.create_order, name="create_order"),  # now correct
-
+    path("create-order/", views.create_order, name="create_order"),
+    path("orders/", views.orders_list, name="orders"),   # ← COMMA ADDED
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
 
 ]

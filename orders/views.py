@@ -83,9 +83,14 @@ def order_status(request, id):
     order = get_object_or_404(Order, id=id)
     return render(request, "order_status.html", {"order": order})
 
-
+#
+# ORDERS LIST (ADMIN)
 # ---------------------------
-# ADMIN DASHBOARD
+# login_required
+def orders_list(request):
+    orders = Order.objects.all().order_by("-id")
+    return render(request, "orders_list.html", {"orders": orders})
+
 # ---------------------------
 @login_required
 def admin_dashboard(request):
