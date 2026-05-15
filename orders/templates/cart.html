@@ -8,7 +8,7 @@
     {% if items %}
 
         {% for item in items %}
-        <div class="status-card">
+        <div class="status-card" style="margin-bottom: 20px;">
 
             <p><strong>{{ item.name }}</strong></p>
 
@@ -19,9 +19,9 @@
             <p><strong>Total: ${{ item.total_price }}</strong></p>
 
             <!-- UPDATE QUANTITY -->
-            <form method="POST" action="{% url 'update_cart' item.id %}">
+            <form method="POST" action="{% url 'update_cart' item.id %}" style="margin-bottom: 10px;">
                 {% csrf_token %}
-                <input type="number" name="quantity" value="{{ item.quantity }}" min="1">
+                <input type="number" name="quantity" value="{{ item.quantity }}" min="1" style="width: 80px;">
                 <button type="submit" class="btn">Update</button>
             </form>
 
@@ -37,6 +37,14 @@
         {% endfor %}
 
         <h3>Total Price: ${{ total_price }}</h3>
+
+        <!-- CHECKOUT BUTTON -->
+        <a href="{% url 'checkout' %}"
+           class="btn"
+           style="display:block;margin-top:20px;background:green;color:white;
+                  padding:12px;text-align:center;border-radius:6px;font-weight:bold;">
+            Proceed to Checkout
+        </a>
 
     {% else %}
         <p>Your cart is empty.</p>
