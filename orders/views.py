@@ -84,8 +84,6 @@ def women_products(request):
 def kids_products(request):
     products = Product.objects.filter(category="kids")
     return render(request, "product_list.html", {"products": products, "title": "Kids"})
-
-
 # ---------------------------
 # ADD TO CART
 # ---------------------------
