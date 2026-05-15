@@ -2,103 +2,120 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>{% block title %}Laptop Boutique{% endblock %}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Laptop Boutique{% endblock %}</title>
 
- <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 
 <body>
 
 <!-- DROPDOWN STYLES -->
 <style>
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
 
-.dropdown-btn {
-  padding: 10px;
-  cursor: pointer;
-  color: white;
-}
+    .dropdown-btn {
+        padding: 10px;
+        cursor: pointer;
+        color: white;
+    }
 
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background: white;
-  min-width: 150px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-  z-index: 10;
-}
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background: white;
+        min-width: 150px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        z-index: 10;
+    }
 
-.dropdown-content a {
-  display: block;
-  padding: 10px;
-  color: black;
-  text-decoration: none;
-}
+    .dropdown-content a {
+        display: block;
+        padding: 10px;
+        color: black;
+        text-decoration: none;
+    }
 
-.dropdown-content a:hover {
-  background: #eee;
-}
+    .dropdown-content a:hover {
+        background: #eee;
+    }
 
-.dropdown:hover .dropdown-content {
-  display: block;
-}
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    /* CART COUNT BADGE */
+    .cart-badge {
+        background: red;
+        color: white;
+        padding: 2px 6px;
+        border-radius: 50%;
+        font-size: 12px;
+        margin-left: 4px;
+    }
 </style>
 
 <nav class="navbar">
- <div class="nav-left">
-   <a href="/">Laptop Boutique</a>
- </div>
 
- <div class="nav-right">
+    <div class="nav-left">
+        <a href="/">Laptop Boutique</a>
+    </div>
 
-   <!-- PRODUCT DROPDOWN -->
-   <div class="dropdown">
-     <span class="dropdown-btn">Products ▼</span>
-     <div class="dropdown-content">
-       <a href="/products/men/">Men</a>
-       <a href="/products/women/">Women</a>
-       <a href="/products/kids/">Kids</a>
-     </div>
-   </div>
+    <div class="nav-right">
 
-   <!-- CART LINK -->
-   <a href="/cart/">Cart</a>
+        <!-- PRODUCT DROPDOWN -->
+        <div class="dropdown">
+            <span class="dropdown-btn">Products ▼</span>
+            <div class="dropdown-content">
+                <a href="{% url 'men_products' %}">Men</a>
+                <a href="{% url 'women_products' %}">Women</a>
+                <a href="{% url 'kids_products' %}">Kids</a>
+            </div>
+        </div>
 
-   {% if user.is_authenticated %}
-     <span>Welcome, {{ user.username }}</span>
+        <!-- CART LINK WITH ITEM COUNT -->
+        <a href="{% url 'cart' %}">
+            Cart
+            {% if request.session.cart %}
+                <span class="cart-badge">
+                    {{ request.session.cart|length }}
+                </span>
+            {% endif %}
+        </a>
 
-     <!-- USER ACTIONS -->
-     <a href="/notifications/">Notifications</a>
+        {% if user.is_authenticated %}
+            <span>Welcome, {{ user.username }}</span>
 
-     <!-- LOGOUT BUTTON -->
-     <form method="post" action="{% url 'logout' %}" class="logout-form" style="display:inline;">
-       {% csrf_token %}
-       <button type="submit" class="logout-link">Logout</button>
-     </form>
+            <a href="/notifications/">Notifications</a>
 
-   {% else %}
-     <!-- AUTH LINKS -->
-     <a href="/accounts/login/">Login</a>
-     <a href="/register/">Register</a>
-   {% endif %}
- </div>
+            <!-- LOGOUT BUTTON -->
+            <form method="post" action="{% url 'logout' %}" class="logout-form" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="logout-link">Logout</button>
+            </form>
+
+        {% else %}
+            <a href="/accounts/login/">Login</a>
+            <a href="/register/">Register</a>
+        {% endif %}
+
+    </div>
 </nav>
 
 {% if messages %}
 <div class="message-container">
- {% for message in messages %}
-   <div class="message {{ message.tags }}">{{ message }}</div>
- {% endfor %}
+    {% for message in messages %}
+        <div class="message {{ message.tags }}">{{ message }}</div>
+    {% endfor %}
 </div>
 {% endif %}
 
 <main style="padding: 40px 20px;">
- {% block content %}{% endblock %}
+    {% block content %}{% endblock %}
 </main>
 
 </body>
