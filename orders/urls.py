@@ -13,15 +13,16 @@ urlpatterns = [
     path("products/women/", views.women_products, name="women_products"),
     path("products/kids/", views.kids_products, name="kids_products"),
 
-    # CART
+    # CART (GUEST CART - SESSION BASED)
     path("add-to-cart/<int:product_id>/", views.add_to_cart, name="add_to_cart"),
     path("cart/", views.cart, name="cart"),
-    path("remove-from-cart/<int:item_id>/", views.remove_from_cart, name="remove_from_cart"),
-    path("update-cart/<int:item_id>/", views.update_cart, name="update_cart"),
+    path("remove-from-cart/<int:product_id>/", views.remove_from_cart, name="remove_from_cart"),
+    path("update-cart/<int:product_id>/", views.update_cart, name="update_cart"),
 
     # CHECKOUT
     path("checkout/", views.checkout, name="checkout"),
 ]
+
 
 
 

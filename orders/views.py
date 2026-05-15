@@ -87,31 +87,49 @@ def kids_products(request):
 # ---------------------------
 # ADD TO CART
 # ---------------------------
-@login_required
 def add_to_cart(request, product_id):
     product = get_object_or_404(Product, id=product_id)
 
-    if request.method == "POST":
-        cart_item, created = CartItem.objects.get_or_create(
-            user=request.user,
-            product=product,
-            defaults={"quantity": 1}
-        )
+    cart = request.session.get("cart", {})
 
-        if not created:
-            cart_item.quantity += 1
-            cart_item.save()
+    if str(product_id) in cart:
+        cart[str(product_id)]["quantity"] += 1
+    else:
+        cart[str(product_id)] = {
+            "name": product.name,
+            "price": float(product.price),
+            "quantity": 1,
+            "image": product.image.url if product.image else None,
+        }
+
+    request.session["cart"] = cart
+    request.session.modified = True
 
     return redirect("cart")
+
 
 
 # ---------------------------
 # CART PAGE
 # ---------------------------
-@login_required
 def cart(request):
-    items = CartItem.objects.filter(user=request.user)
-    total_price = sum(item.total_price for item in items)
+    cart = request.session.get("cart", {})
+    items = []
+    total_price = 0
+
+    for product_id, item in cart.items():
+        item_total = item["price"] * item["quantity"]
+        total_price += item_total
+
+        items.append({
+            "id": product_id,
+            "name": item["name"],
+            "price": item["price"],
+            "quantity": item["quantity"],
+            "total_price": item_total,
+            "image": item["image"],
+        })
+
     return render(request, "cart.html", {
         "items": items,
         "total_price": total_price
@@ -121,28 +139,36 @@ def cart(request):
 # ---------------------------
 # REMOVE FROM CART
 # ---------------------------
-@login_required
-def remove_from_cart(request, item_id):
-    item = get_object_or_404(CartItem, id=item_id, user=request.user)
-    item.delete()
-    messages.success(request, "Item removed from cart.")
+def remove_from_cart(request, product_id):
+    cart = request.session.get("cart", {})
+
+    if str(product_id) in cart:
+        del cart[str(product_id)]
+
+    request.session["cart"] = cart
+    request.session.modified = True
+
     return redirect("cart")
 
 
 # ---------------------------
 # UPDATE CART
 # ---------------------------
-@login_required
-def update_cart(request, item_id):
-    item = get_object_or_404(CartItem, id=item_id, user=request.user)
+def update_cart(request, product_id):
+    cart = request.session.get("cart", {})
 
-    if request.method == "POST":
-        qty = int(request.POST.get("quantity", 1))
-        item.quantity = max(1, qty)
-        item.save()
-        messages.success(request, "Cart updated.")
+    if str(product_id) in cart:
+        new_qty = int(request.POST.get("quantity", 1))
+        if new_qty > 0:
+            cart[str(product_id)]["quantity"] = new_qty
+        else:
+            del cart[str(product_id)]
+
+    request.session["cart"] = cart
+    request.session.modified = True
 
     return redirect("cart")
+
 
 
 # ---------------------------
@@ -151,7 +177,7 @@ def update_cart(request, item_id):
 def send_receipt_email(user, items, total_price, payment_method):
     subject = "Your Order Receipt"
 
-    message = render_to_string("emails/receipt_email.html", {
+    message = render_to_string("emails/receipt_email.txt", {
         "user": user,
         "items": items,
         "total_price": total_price,
@@ -170,14 +196,27 @@ def send_receipt_email(user, items, total_price, payment_method):
 # ---------------------------
 # CHECKOUT
 # ---------------------------
-@login_required
 def checkout(request):
-    items = CartItem.objects.filter(user=request.user)
-    total_price = sum(item.total_price for item in items)
+    cart = request.session.get("cart", {})
+    items = []
+    total_price = 0
+
+    for product_id, item in cart.items():
+        item_total = item["price"] * item["quantity"]
+        total_price += item_total
+
+        items.append({
+            "id": product_id,
+            "name": item["name"],
+            "price": item["price"],
+            "quantity": item["quantity"],
+            "total_price": item_total,
+        })
 
     if request.method == "POST":
         payment_method = request.POST.get("payment_method")
 
+        # Send email
         send_receipt_email(
             user=request.user,
             items=items,
@@ -185,7 +224,9 @@ def checkout(request):
             payment_method=payment_method
         )
 
-        items.delete()
+        # Clear cart
+        request.session["cart"] = {}
+        request.session.modified = True
 
         messages.success(request, "Checkout complete! Receipt sent to your email.")
         return redirect("cart")
@@ -197,6 +238,6 @@ def checkout(request):
             ("cash", "Cash"),
             ("card", "Credit/Debit Card"),
             ("zelle", "Zelle"),
-            ("PayPal", "PayPal"),
+            ("paypal", "PayPal"),
         ],
     })

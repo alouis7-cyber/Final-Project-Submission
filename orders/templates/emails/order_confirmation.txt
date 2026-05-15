@@ -1,0 +1,15 @@
+Subject: Thanks for your order, {{ user.username }}!
+
+Hey {{ user.username }},
+
+We've received your order and we're already getting things ready for you.
+
+Here’s what you ordered:
+{% for item in items %}
+• {{ item.name }} — Qty: {{ item.quantity }} — ${{ item.total_price }}
+{% endfor %}
+
+Total Amount: ${{ total_price }}
+
+We'll keep you updated as your order moves through the process.
+Thanks for shopping with us — we appreciate you!

@@ -1,6 +1,21 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>Notifications</h2>
-<p>You have no notifications at this time.</p>
+<div class="form-container">
+    <h2>Notifications</h2>
+
+    {% if notifications %}
+        {% for note in notifications %}
+            <div class="status-card">
+                <p><strong>{{ note.title }}</strong></p>
+                <p>{{ note.message }}</p>
+                <p style="font-size:12px;color:gray;">
+                    {{ note.created_at }}
+                </p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>You have no notifications at this time.</p>
+    {% endif %}
+</div>
 {% endblock %}

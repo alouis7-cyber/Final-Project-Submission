@@ -53,3 +53,45 @@
 .logout-link:hover {
     text-decoration: underline;
 }
+
+.form-container {
+    width: 400px;
+    margin: 40px auto;
+    padding: 25px;
+    background: #fff;
+    border-radius: 10px;
+}
+
+.form-group {
+    margin-bottom: 18px;   /* ← SPACING BETWEEN FIELDS */
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;    /* ← SPACE ABOVE INPUT */
+    font-weight: bold;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+.error {
+    color: red;
+    font-size: 14px;
+    margin-top: 4px;
+}
+
+.btn {
+    width: 100%;
+    padding: 12px;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}

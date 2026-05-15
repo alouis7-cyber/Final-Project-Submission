@@ -1,13 +1,21 @@
-<h2>Order Receipt</h2>
+{% extends "base.html" %}
 
-<p>Thank you for your order, {{ user.username }}!</p>
+{% block content %}
+<div class="form-container">
 
-<p><strong>Order Summary:</strong></p>
+    <h2>Order Receipt</h2>
 
-{% for item in items %}
-    <p>{{ item.order.garment_type }} — Qty: {{ item.quantity }} — ${{ item.total_price }}</p>
-{% endfor %}
+    <p>Thank you for your order, {{ user.username }}!</p>
 
-<p><strong>Total:</strong> ${{ total_price }}</p>
+    <p><strong>Order Summary:</strong></p>
 
-<p>We appreciate your business.</p>
+    {% for item in items %}
+        <p>{{ item.name }} — Qty: {{ item.quantity }} — ${{ item.total_price }}</p>
+    {% endfor %}
+
+    <p><strong>Total:</strong> ${{ total_price }}</p>
+
+    <p>We appreciate your business.</p>
+
+</div>
+{% endblock %}
