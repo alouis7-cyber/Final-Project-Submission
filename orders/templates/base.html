@@ -11,6 +11,44 @@
 
 <body>
 
+<!-- DROPDOWN STYLES -->
+<style>
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-btn {
+  padding: 10px;
+  cursor: pointer;
+  color: white;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background: white;
+  min-width: 150px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  z-index: 10;
+}
+
+.dropdown-content a {
+  display: block;
+  padding: 10px;
+  color: black;
+  text-decoration: none;
+}
+
+.dropdown-content a:hover {
+  background: #eee;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+</style>
+
 <nav class="navbar">
  <div class="nav-left">
    <a href="/">Laptop Boutique</a>
@@ -18,10 +56,15 @@
 
  <div class="nav-right">
 
-   <!-- PRODUCT LINKS (visible to everyone) -->
-   <a href="/products/men/">Men</a>
-   <a href="/products/women/">Women</a>
-   <a href="/products/kids/">Kids</a>
+   <!-- PRODUCT DROPDOWN -->
+   <div class="dropdown">
+     <span class="dropdown-btn">Products ▼</span>
+     <div class="dropdown-content">
+       <a href="/products/men/">Men</a>
+       <a href="/products/women/">Women</a>
+       <a href="/products/kids/">Kids</a>
+     </div>
+   </div>
 
    <!-- CART LINK -->
    <a href="/cart/">Cart</a>
