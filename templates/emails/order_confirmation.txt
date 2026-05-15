@@ -1,0 +1,14 @@
+Hello {{ user.username }},
+
+Your order has been successfully placed!
+
+Order Summary:
+{% for item in items %}
+• {{ item.name }} — Qty: {{ item.quantity }} — ${{ item.total_price }}
+{% endfor %}
+
+Total: ${{ total_price }}
+
+We will notify you once your order is processed.
+
+Thank you for shopping with Laptop Boutique!

@@ -1,0 +1,15 @@
+Hello {{ user.username }},
+
+Thank you for your order! Here is your receipt:
+
+Items:
+{% for item in items %}
+• {{ item.name }} — Qty: {{ item.quantity }} — ${{ item.total_price }}
+{% endfor %}
+
+Total Amount: ${{ total_price }}
+Payment Method: {{ payment_method }}
+
+We appreciate your business and hope you enjoy your purchase.
+
+Laptop Boutique
